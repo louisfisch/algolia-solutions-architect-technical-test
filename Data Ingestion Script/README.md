@@ -4,16 +4,16 @@
 
 The Algolia Solutions Architect Technical Test - Data Ingestion Script is a small script written in Go to send data from a JSON file to an Algolia index.
 
-## Usage
+## Installation
 
 1. Make sure you:
     - have cloned the whole algolia-solutions-architect-technical-test repository,
     - are located in the Data Ingestion Script repository from a terminal,
     - have docker installed (https://docs.docker.com/get-docker).
 
-3. The `assets` directory is provided with a JSON file containing a fake dataset. You can replace it with your own.
+2. The `assets` directory is provided with a JSON file containing a fake dataset. You can replace it with your own.
 
-2. Create a `.env` file from the `.env.example`. Then fill the environment variables accordingly. You will need your Algolia Application ID, Algolia Admin API Key and the index name you want to fill with the data.
+3. Create a `.env` file from the `.env.example`. Then fill the environment variables accordingly. You will need your Algolia Application ID, Algolia Admin API Key and the index name you want to fill with the data.
 
         cp .env.example .env
 

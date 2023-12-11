@@ -1,0 +1,10 @@
+services:
+  go:
+    build: .
+    container_name: go
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - .:/app

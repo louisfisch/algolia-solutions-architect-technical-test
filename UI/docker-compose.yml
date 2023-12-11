@@ -1,0 +1,11 @@
+services:
+  nodejs:
+    build: .
+    container_name: nodejs-2
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - .:/app
+      - /app/node_modules

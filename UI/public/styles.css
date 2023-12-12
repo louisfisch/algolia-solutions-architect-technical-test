@@ -7,7 +7,8 @@ a, a:focus, a:link, a:hover, a:visited {
     text-decoration: none;
 }
 
-a:hover {
+a:hover,
+[class^=ais-][class*=-item--selected] {
     color: #f1641e;
     fill: #f1641e;
     text-decoration: none;
@@ -29,10 +30,11 @@ button[disabled] {
 }
 
 button:hover:not([disabled]),
-select:hover {
+select:hover,
+.ais-Pagination-item--selected .ais-Pagination-link,
+.ais-Pagination-link:hover {
     background-color: #f1641e;
     color: #ffffff;
-
 }
 
 button:hover:not([disabled]) svg {
@@ -45,6 +47,7 @@ button:hover:not([disabled]) svg {
     padding: 2px 8px;
 }
 
+.hit-brand,
 .hit-description,
 .hit-free-shipping,
 .hit-name,
@@ -132,11 +135,6 @@ header h1 {
     content: ')';
 }
 
-[class^=ais-][class*=-item--selected] {
-    color: #f1641e;
-    fill: #f1641e;
-}
-
 button[class^=ais-][class*=-showMore] {
     margin-top: 0.5rem;
 }
@@ -177,15 +175,16 @@ button[class^=ais-][class*=-showMore--disabled],
     cursor: pointer;
 }
 
+.ais-Highlight-highlighted,
 .ais-NumericMenu-label:hover,
+.ais-Pagination-link,
 .ais-RefinementList-label:hover,
 .ais-ToggleRefinement-label:hover {
     color: #f1641e;
 }
 
-mark.ais-Highlight-highlighted {
+.ais-Highlight-highlighted {
     background: none;
-    color: #f1641e;
 }
 
 .ais-NumericMenu-radio,
@@ -202,7 +201,6 @@ mark.ais-Highlight-highlighted {
 .ais-Pagination-link {
     border: 1px solid #f1641e;
     border-radius: 2rem;
-    color: #f1641e;
     display: inline-block;
     height: 2rem;
     line-height: 2rem;
@@ -212,16 +210,6 @@ mark.ais-Highlight-highlighted {
 
 .ais-Pagination-item:first-child .ais-Pagination-link {
     margin-left: 0rem;
-}
-
-.ais-Pagination-link:hover {
-    background-color: #f1641e;
-    color: #ffffff;
-}
-
-.ais-Pagination-item--selected .ais-Pagination-link {
-    background-color: #f1641e;
-    color: #ffffff;
 }
 
 .ais-Pagination-item.ais-Pagination-item--disabled .ais-Pagination-link {

@@ -1,9 +1,9 @@
 import 'dotenv/config'
 
 import algoliasearch from 'algoliasearch/lite';
-
-import instantsearch from 'instantsearch.js';
 import historyRouter from 'instantsearch.js/es/lib/routers/history';
+import instantsearch from 'instantsearch.js';
+
 import {
     clearRefinements,
     configure,
@@ -41,7 +41,7 @@ search.addWidgets([
         container: '#clear-refinements',
         templates: {
             resetLabel({ hasRefinements }, { html }) {
-                return html`<span>${hasRefinements ? 'Clear all filters' : 'No filter applied'}</span>`;
+                return html`${hasRefinements ? 'Clear all filters' : 'No filter applied'}`;
             },
         },
     }),
@@ -60,9 +60,6 @@ search.addWidgets([
             'hierarchicalCategories.lvl4',
         ],
         showParentLevel: true,
-        templates: {
-            item: '<a href="{{url}}" class="facet-item {{#isRefined}}active{{/isRefined}}"><span class="facet-name"><i class="fa fa-angle-right"></i> {{label}}</span class="facet-name"><span class="ais-HierarchicalMenu-count">{{count}}</span></a>',
-        },
     }),
 
     hits({

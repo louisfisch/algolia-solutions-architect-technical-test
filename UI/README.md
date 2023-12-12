@@ -4,7 +4,13 @@
 
 The Algolia Solutions Architect Technical Test - UI Script is a demo web application to display and filter records from an Algolia index.
 
-## Usage
+## Installation
+
+### CodeSandbox
+
+https://codesandbox.io/p/devbox/algolia-solutions-architect-technical-test-ui-fqqd7g
+
+### Locally
 
 1. Make sure you:
     - have cloned the whole algolia-solutions-architect-technical-test repository,

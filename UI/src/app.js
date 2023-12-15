@@ -1,8 +1,14 @@
 import 'dotenv/config'
 
+import '@algolia/autocomplete-theme-classic';
+
 import algoliasearch from 'algoliasearch/lite';
 import historyRouter from 'instantsearch.js/es/lib/routers/history';
 import instantsearch from 'instantsearch.js';
+
+import { autocomplete } from '@algolia/autocomplete-js';
+import { connectSearchBox } from 'instantsearch.js/es/connectors';
+import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
 
 import {
     clearRefinements,
@@ -14,7 +20,6 @@ import {
     pagination,
     ratingMenu,
     refinementList,
-    searchBox,
     sortBy,
     toggleRefinement,
 } from 'instantsearch.js/es/widgets';
@@ -26,10 +31,9 @@ const searchClient = algoliasearch(
 
 const instantSearchRouter = historyRouter();
 
+const virtualSearchBox = connectSearchBox(() => {});
+
 const search = instantsearch({
-    future: {
-        preserveSharedStateOnUnmount: true,
-    },
     indexName: process.env.ALGOLIA_INDEX_NAME,
     insights: true,
     routing: instantSearchRouter,
@@ -122,10 +126,10 @@ search.addWidgets([
         sortBy: ['name:asc'],
     }),
 
-    searchBox({
-        container: '#search-box',
-        searchAsYouType: false,
-    }),
+    // searchBox({
+    //     container: '#search-box',
+    //     searchAsYouType: false,
+    // }),
 
     sortBy({
         container: '#sort-by',
@@ -152,6 +156,76 @@ search.addWidgets([
             },
         },
     }),
+
+    virtualSearchBox({}),
 ]);
 
 search.start();
+
+function setInstantSearchUiState(indexUiState) {
+    search.setUiState(uiState => ({
+        ...uiState,
+        [process.env.ALGOLIA_INDEX_NAME]: {
+            ...uiState[process.env.ALGOLIA_INDEX_NAME],
+            page: 1,
+            ...indexUiState,
+        },
+    }));
+}
+
+function getInstantSearchUiState() {
+    const uiState = instantSearchRouter.read();
+
+    return (uiState && uiState[process.env.ALGOLIA_INDEX_NAME]) || {};
+}
+
+const searchPageState = getInstantSearchUiState();
+
+let skipInstantSearchUiStateUpdate = false;
+
+autocomplete({
+    container: '#autocomplete',
+    detachedMediaQuery: 'none',
+    insights: true,
+    initialState: {
+        query: searchPageState.query || '',
+    },
+    onSubmit({ state }) {
+        setInstantSearchUiState({ query: state.query });
+    },
+    onReset() {
+        setInstantSearchUiState({ query: '' });
+    },
+    openOnFocus: true,
+    placeholder: 'Search for products',
+    plugins: [
+        createQuerySuggestionsPlugin({
+            searchClient,
+            indexName: `${process.env.ALGOLIA_INDEX_NAME}_query_suggestions`,
+            getSearchParams() {
+                return {
+                    hitsPerPage: 5,
+                };
+            },
+            transformSource({ source }) {
+                return {
+                    ...source,
+                    sourceId: 'querySuggestionsPlugin',
+                    onSelect({ setIsOpen, setQuery, event, item }) {
+                        if (event.button === 1 || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+                            return;
+                        }
+
+                        setIsOpen(false);
+
+                        setInstantSearchUiState({ query: item.query });
+                    },
+                }
+            },
+        })
+    ],
+})
+
+window.addEventListener('popstate', () => {
+    skipInstantSearchUiStateUpdate = true;
+});

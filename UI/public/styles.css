@@ -164,7 +164,7 @@ button[class^=ais-][class*=-showMore]:not([disabled]):hover,
 .aa-SubmitButton,
 .aa-ClearButton:hover,
 .aa-ItemActionButton:hover,
-.ais-ClearRefinements-button:hover,
+.ais-ClearRefinements-button:not([disabled]):hover,
 .ais-SortBy-select:hover,
 .ais-Pagination-item--selected .ais-Pagination-link,
 .ais-Pagination-link:hover {
